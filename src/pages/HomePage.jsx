@@ -3,28 +3,51 @@ import {fetchMovies} from '../calltoapi/tmdb'
 import MovieCard from '../components/MovieCard';
 import SearchBar from '../components/SearchBar';
 import { Link } from 'react-router-dom';
+import Pagination from '../components/Pagination';
+import { filterMovies } from '../calltoapi/tmdb';
+import NavBar from '../components/NavBar';
 import './style.css'
+
+
 
 const HomePage = () => {
     const [movies, setMovies] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('')
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isSearching, setIsSearching] = useState(false);
     
+
     useEffect(()=>{
-      const getMovies = async()=>{
+      const getMovies= async()=>{
         try{
-          const data = await fetchMovies();
-          //console.log(data)
-          setMovies(data)
+          if(searchQuery.trim() !== ''){
+            setIsSearching(true);
+            const data = await filterMovies(searchQuery);
+            setMovies(data);
+          }else {
+            setIsSearching(false);
+            const data = await fetchMovies(currentPage);
+            setMovies(data);
+          }
+          
         }
         catch (error){
-          console.log('Error fetching movies:', error)
+          console.log('No match:', error)
         }
+
       }
-    getMovies(); 
-    }, []);
+      getMovies();
+    }, [currentPage, searchQuery])
+
   return (
     <div className='home'>
-      <SearchBar/>
-      <h1>Popular Movies</h1>
+      <NavBar/>
+      <SearchBar setSearchQuery={setSearchQuery}/>
+      {isSearching ? (
+        <h2>Search Results</h2>
+        ) : (
+        <h2>Popular Movies</h2>
+      )}
       <div className='movie-card'>
         {movies.map(movie =>(
         <Link to = {`/movie/${movie.id}`}>
@@ -36,8 +59,9 @@ const HomePage = () => {
          </Link>  
           
         ))}
-      </div>  
-    </div>
+      </div> 
+      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+    </div>  
   )
 }
 

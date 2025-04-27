@@ -1,19 +1,26 @@
 import React, {useState, useEffect} from 'react'
 import { fetchMoviesDetails } from '../calltoapi/tmdb'
 import { useParams } from 'react-router-dom';
+import { doc, updateDoc, arrayUnion ,collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db, auth } from '../firebase/config';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import './style.css'
+import ReviewsList from '../components/ReviewsList';
+
 
 const MovieDetails = () => {
   const {id} = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [user] = useAuthState(auth);
+  const [review, setReview] = useState('');
 
   useEffect(()=>{
     const getMovieDetails = async() =>{
       try{
         setLoading(true);
         const data = await fetchMoviesDetails(id);
-        console.log(data);
+        //console.log(data);
         setMovie(data);
       }
       catch(error){
@@ -27,7 +34,51 @@ const MovieDetails = () => {
   }, [id]);
         
   if (loading) return <div>Loading...</div>;
-  if (!movie) return <div>Movie not found</div>;          
+  if (!movie) return <div>Movie not found</div>;  
+  
+  const handleWatchList = async()=>{
+    if(!user){
+      alert('Sign in to add movies to your watchlist');
+      return;
+    }
+    const userRef = doc(db, 'users', user.uid);
+
+    await updateDoc(userRef, {
+      watchlist: arrayUnion({
+        id: movie.id,
+        title: movie.title,
+        poster: movie.poster_path, 
+      })
+    });
+  
+    alert('Movie added to watchlist!');
+  };
+  
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    const user = auth.currentUser;
+    if (!user) {
+      alert('Please sign in to leave a review');
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, 'reviews'), {
+        movieId: movie.id,
+        movieTitle: movie.title,
+        userId: user.uid,
+        userName: user.displayName,
+        reviewText: review,
+        createdAt: serverTimestamp()
+      });
+      alert('Review submitted!');
+      setReview('');
+    } catch (error) {
+      console.error('Error adding review:', error);
+    }
+  };
+
+
 
   return (
     <div>
@@ -57,8 +108,18 @@ const MovieDetails = () => {
         <div>
           <h3>Overview</h3>
           <p>{movie.overview}</p>
+          <button onClick={handleWatchList}>Add To WatchList</button>
           <h3>Ratings {movie.vote_average}</h3>
           <p> Number of votes: {movie.vote_count}</p>
+          <form onSubmit={handleReviewSubmit}>
+      <textarea 
+        placeholder="Write your review here..." 
+        value={review}
+        onChange={(e) => setReview(e.target.value)}
+      />
+      <button type="submit">Submit Review</button>
+    </form>
+    <ReviewsList movieId={movie.id}/>
         </div>
         <div>
   <h3>Cast</h3>
