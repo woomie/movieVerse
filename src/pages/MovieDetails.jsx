@@ -6,6 +6,7 @@ import { db, auth } from '../firebase/config';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import './style.css'
 import ReviewsList from '../components/ReviewsList';
+import {FaBookmark } from 'react-icons/fa';
 
 
 const MovieDetails = () => {
@@ -47,7 +48,10 @@ const MovieDetails = () => {
       watchlist: arrayUnion({
         id: movie.id,
         title: movie.title,
-        poster: movie.poster_path, 
+        poster: movie.poster_path,
+        date:movie.release_date,
+        rating:movie.vote_average
+
       })
     });
   
@@ -82,35 +86,31 @@ const MovieDetails = () => {
 
   return (
     <div>
-      <div className='main' style={
+      
+      <div className='movie-detail-hero' style={
         {backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '500px',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: 'white'
       }
     }>
-      <h1>{movie.title}</h1>
-      <p>{movie.release_date}</p>
-        
+      <div className='bottom-left-div'>
+      <h1 >{movie.title}</h1>
+      <p >{movie.release_date}</p>
+      </div>
     </div>
-      <div>
+      <div className='movie-details-body'>
+        <div className='movie-details-poster'>
         <img
         src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
         alt={movie.title}
         />
+        <button onClick={handleWatchList}>
+            <FaBookmark style={{ marginRight: '8px' }}/>Add To WatchList
+            </button>
+        </div>
         
-        <div>
+        <div className='movie-details-overview'>
           <h3>Overview</h3>
           <p>{movie.overview}</p>
-          <button onClick={handleWatchList}>Add To WatchList</button>
-          <h3>Ratings {movie.vote_average}</h3>
-          <p> Number of votes: {movie.vote_count}</p>
+          
           <form onSubmit={handleReviewSubmit}>
       <textarea 
         placeholder="Write your review here..." 
@@ -121,7 +121,7 @@ const MovieDetails = () => {
     </form>
     <ReviewsList movieId={movie.id}/>
         </div>
-        <div>
+        <div className='movie-details-cast'>
   <h3>Cast</h3>
   {movie.credits.cast.slice(0, 13).map((actor, index) => (
     <div key={index} className="cast-card">
@@ -137,10 +137,11 @@ const MovieDetails = () => {
       <p>{actor.character}</p>
     </div>
   ))}
-</div>
+        </div>
           
       </div>
     </div>
+    
   )
 }
 

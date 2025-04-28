@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Pagination from '../components/Pagination';
 import { filterMovies } from '../calltoapi/tmdb';
 import NavBar from '../components/NavBar';
+import '../styles/main.css';
 import './style.css'
 
 
@@ -23,10 +24,13 @@ const HomePage = () => {
           if(searchQuery.trim() !== ''){
             setIsSearching(true);
             const data = await filterMovies(searchQuery);
+            
             setMovies(data);
+            
           }else {
             setIsSearching(false);
             const data = await fetchMovies(currentPage);
+            console.log(data)
             setMovies(data);
           }
           
@@ -39,15 +43,21 @@ const HomePage = () => {
       getMovies();
     }, [currentPage, searchQuery])
 
+    
+
   return (
     <div className='home'>
       <NavBar/>
-      <SearchBar setSearchQuery={setSearchQuery}/>
-      {isSearching ? (
-        <h2>Search Results</h2>
+      <div className='content'>
+        <div className='heading'>
+        {isSearching ? (
+        <h3>Search Results</h3>
         ) : (
-        <h2>Popular Movies</h2>
+        <h3>Popular Movies</h3>
       )}
+        <SearchBar setSearchQuery={setSearchQuery}/>
+      
+      </div>
       <div className='movie-card'>
         {movies.map(movie =>(
         <Link to = {`/movie/${movie.id}`}>
@@ -55,12 +65,16 @@ const HomePage = () => {
           key={movie.id}
           image={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
           title={movie.title}
+          date={movie.release_date}
+          rating={movie.vote_average}
           />
-         </Link>  
+        </Link> 
+         
           
         ))}
       </div> 
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+      </div>
     </div>  
   )
 }

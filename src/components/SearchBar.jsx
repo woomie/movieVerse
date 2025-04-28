@@ -8,11 +8,14 @@ const SearchBar = ({setSearchQuery}) => {
   return (
     <div className="search-bar">
        <div className='overlay'>
-        <h1>Welcome</h1>
-        <h4>Your Cinematic Universe, Every Frame Tells a Story</h4>
         <div className='search'>
-            <input type="text" onChange={handleChange}/>
-            <button>Search</button>
+            <input 
+            type="text"
+            placeholder='search...'
+            className='input-box'
+            onChange={handleChange}/>
+            
+            
         </div>
         
         </div> 

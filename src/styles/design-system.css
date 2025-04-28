@@ -1,0 +1,19 @@
+:root{
+    --background-color:  #14191e;
+    --text-font: 'Roboto', sans-serif;
+    --heading-font: 'Montserrat', sans-serif;
+    --text-color: #ffffff;
+    --primary-color:#D84E27;
+}
+
+body{
+    margin:0;
+    padding:0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--text-font);
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: var(--heading-font);
+}

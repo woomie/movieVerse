@@ -2,11 +2,14 @@ import {useState} from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../firebase/config'
 import { Link, useNavigate } from 'react-router-dom';
+import poster from '../assets/tyson-moultrie-BQTHOGNHo08-unsplash.jpg'
+
+
 
 const Signin = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [error , setError] = useState();
+    //const [error , setError] = useState();
     const navigate = useNavigate();
 
     const handleSignIn = async(e) =>{
@@ -20,17 +23,19 @@ const Signin = () => {
         }
         catch(error){
             console.log(error);
-            setError(error.message);
+            //setError(error.message);
         }
         
         
     }
   return (
-    <div>
-      <div></div>
-      <div>
-        <h2>Sign In </h2>
+    <div className='signin'>
+      <div className='right'>
+      <Link to ={'/'}>
+        <span className='link-to-home'>Home</span>
+      </Link>
         <form onSubmit={handleSignIn}>
+          <h1>Sign In </h1>
             <input
                 type='text'
                 id='email'
@@ -44,15 +49,19 @@ const Signin = () => {
                 onChange={(e)=> setPassword(e.target.value)}
             />
                 <button>Submit</button>
-            
-            
+                <Link to ={'/signup'}>
+                <span className='link-to-signup'>Sign Up</span>
+                </Link>
         </form>
-        <p>New User?</p>
-        <Link to ={'/signup'}>
-        <button>Sign Up</button>
-        </Link>
+        
         
       </div>
+      <div className='left'>
+        <img
+          src={poster}
+        />
+      </div>
+      
     </div>
   )
 }

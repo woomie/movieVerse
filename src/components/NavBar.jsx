@@ -1,8 +1,9 @@
 import {useState, useEffect} from 'react'
-import logo from '../assets/Logo.png'
+import logo from '../assets/MovieVersewhite.png';
 import { Link } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../firebase/config';
+import { FaSignInAlt, FaSignOutAlt, FaHome, FaBookmark } from 'react-icons/fa' ;
 
 
 
@@ -17,34 +18,44 @@ const NavBar = () => {
     return () => unsubscribe();
 }, []);
 
-  return (
-    <div className='nav-bar'>
-      <img 
-        src={logo}
-        alt= 'website Logo'
-      />
-  
-      {user ?
-      (
-        <div>
-          <span>Hello, {user.displayName}</span>
-          <button onClick={()=> signOut(auth)}>Sign Out</button>
-        </div>
-      ):(
-        <Link to ={'/signin'}>
-        <button>Sign In</button>
-      </Link>
-      )
-      
-      }
-      <Link to ={'/watchlist'}>
-      <button>WatchList</button>
+return (
+  <div className='nav-bar'>
+    <img 
+      src={logo}
+      alt='website Logo'
+      className="logo"
+    />
+
+    {user && (
+      <span className="user-name">
+        Hello, {user.displayName}
+      </span>
+    )}
+
+    <Link to='/'>
+      <span className="nav-link">
+        <FaHome style={{ marginRight: '8px' }}/> Home
+      </span>
     </Link>
 
-      
-      
-    </div>
-  )
-}
+    <Link to='/watchlist'>
+      <span className="nav-link">
+        <FaBookmark style={{ marginRight: '8px' }}/> WatchList
+      </span>
+    </Link>
 
+    {user ? (
+      <button onClick={() => signOut(auth)} className="nav-link logout-btn">
+        <FaSignOutAlt style={{ marginRight: '8px' }}/> Sign Out
+      </button>
+    ) : (
+      <Link to='/signin'>
+        <span className="nav-link">
+          <FaSignInAlt style={{ marginRight: '8px' }}/> Sign In
+        </span>
+      </Link>
+    )}
+  </div>
+)
+}
 export default NavBar

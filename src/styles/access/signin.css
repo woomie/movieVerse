@@ -1,0 +1,117 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+  }
+  
+  .signin {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden; /* Ensures image respects container border radius */
+  }
+  
+  .left {
+    display: none; /* Hidden by default on small screens */
+  }
+  
+  .left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 20px 40px;
+  }
+  
+  .right form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #010b1c;
+    box-sizing: border-box;
+  }
+  
+  form a {
+    color: black;
+  }
+  
+  .right button {
+    padding: 12px;
+    margin-top: 20px;
+    width: 100%;
+    background-color: #D84E27;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    border-style: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #222;
+    transition: background-color 0.3s ease;
+  }
+  
+  h1 {
+    margin: 30px 0;
+    text-align: center;
+    font-size: 2.5rem;
+  }
+  
+  .right input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid rgb(189, 187, 187);
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  .right input::placeholder {
+    color: #9ca3af;
+  }
+  
+  .right input:focus {
+    border-color: #010b1c;
+    outline: none;
+  }
+  
+  /* Media query for larger screens */
+  @media (min-width: 768px) {
+    .signin {
+      flex-direction: row;
+      height: 80vh; /* Control the height on larger screens */
+    }
+    
+    .right {
+      width: 50%;
+    }
+    
+    .left {
+      display: block;
+      width: 50%;
+      height: auto; /* Let it adjust to container height */
+    }
+  }

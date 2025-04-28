@@ -1,0 +1,71 @@
+.movie-detail-hero {
+    position: relative;
+    height: 500px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Push text to bottom */
+    align-items: flex-start;   /* Align text to left */
+    padding: 2rem;
+    color: white;
+    overflow: hidden;
+  }
+  
+  /* Blur only bottom half */
+  .movie-detail-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50%; /* Blur only bottom half */
+    width: 100%;
+    
+    background: rgba(0, 0, 0, 0.3); /* semi-transparent black */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  
+    pointer-events: none; /* So clicks still work */
+  }
+  
+  /* Make sure text is above the blur */
+  .movie-detail-hero h1,p
+  .movie-detail-hero .bottom-left-text {
+    position: relative;
+    z-index: 1;
+  }
+.bottom-left-div{
+    position: absolute; /* Add */
+    bottom: 20px; /* How close to bottom */
+    left: 20px;   /* How close to left */
+    margin: 0;
+}
+button{
+    height: 40px;
+    width: 150px;
+    background-color: #D84E27;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    
+}
+
+.movie-details-body{
+    display: flex;
+    gap:1rem;
+    padding:2rem;
+    justify-content: space-between;
+}
+
+.movie-details-poster{
+    width:20%;
+    padding-top: 20px;
+}
+
+.movie-details-overview{
+    width:55%;
+}
+.movie-details-cast{
+    width:25%;
+}

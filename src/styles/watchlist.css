@@ -1,0 +1,12 @@
+.watchlist-layout{
+    display: flex;
+    justify-content: start;
+
+}
+.watchlist-content{
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap:1rem;
+    padding:1rem;  
+}
