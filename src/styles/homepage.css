@@ -8,9 +8,15 @@
 .content{
     flex:1;
 }
+.subheading{
+  padding-left: 2.5rem;
+  margin-top: 0;
+}
 .heading{
     display :flex;
-    padding:2rem;
+    padding: 2rem;
+    padding-left: 2.5rem;
+    padding-top: 3rem;
     justify-content: space-between;
     align-items: center;
 }
@@ -34,6 +40,7 @@
   .logo {
     width: 150px;
     margin-bottom: 40px;
+    padding-top: 2rem;
   }
   
   .user-name {
@@ -70,4 +77,19 @@
   
 .nav-bar img{
     width:100px;
+}
+
+.input-box {
+  width: 100%;
+  max-width: 600px; 
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+  box-sizing: border-box; 
+}
+.search-bar{
+  width: 50%;
 }

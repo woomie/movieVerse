@@ -40,6 +40,8 @@ const WatchList = () => {
         }
     };
 
+    
+
     const handleRemove = async (movie) => {
         const user = auth.currentUser;
         if (!user) return;
@@ -71,7 +73,7 @@ const WatchList = () => {
                                 date={movie.date}
                                 rating={movie.rating}
                             />
-                            <button onClick={() => handleRemove(movie)}>Remove</button>
+                           <button onClick={() => handleRemove(movie) }>Remove</button> 
                         </div>
                     ))
                 ) : (

@@ -4,9 +4,12 @@ import { useParams } from 'react-router-dom';
 import { doc, updateDoc, arrayUnion ,collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../firebase/config';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import './style.css'
 import ReviewsList from '../components/ReviewsList';
-import {FaBookmark } from 'react-icons/fa';
+import {FaBookmark, FaStar, FaHome } from 'react-icons/fa';
+import { Link} from 'react-router-dom';
+import logo from '../assets/MovieVersewhite.png';
+import '../styles/main.css';
+import NavBar from '../components/NavBar';
 
 
 const MovieDetails = () => {
@@ -50,11 +53,12 @@ const MovieDetails = () => {
         title: movie.title,
         poster: movie.poster_path,
         date:movie.release_date,
-        rating:movie.vote_average
+        rating:movie.vote_average,
+        genres: movie.genres ? movie.genres.map(genre => genre.name):[]
 
       })
     });
-  
+    
     alert('Movie added to watchlist!');
   };
   
@@ -85,32 +89,91 @@ const MovieDetails = () => {
 
 
   return (
-    <div>
+    <div className='movie-details-page'>
       
+    
       <div className='movie-detail-hero' style={
+        
         {backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
       }
     }>
-      <div className='bottom-left-div'>
-      <h1 >{movie.title}</h1>
-      <p >{movie.release_date}</p>
+      
+      <div className="movie-details-navbar">
+    
+      <Link to='/'>
+            <span className="nav-link">
+              <FaHome style={{ marginRight: '8px' }}/> Home
+            </span>
+          </Link>
+        <Link to='/watchlist'>
+      <span className="nav-link">
+        <FaBookmark style={{ marginRight: '8px' }}/> WatchList
+      </span>
+    </Link>
+      </div>
+
+      <div className='glass-card'>
+        <div className='glass-card-content'>
+          <h2>{movie.title}</h2>
+          <div className='glass-card-cast'>
+            <span style={{color:'white', fontSize:'smaller'}}>Cast</span>
+            {movie.credits.cast.slice(0, 3).map((actor, index) => (
+              <p>{actor.name}</p>  
+            ))} 
+          </div>
+          <div className='glass-card-stats'>
+          <p>IMDB <FaStar style={{ color: 'gold', marginRight: '5px' }}/> {movie.vote_average ? parseFloat(movie.vote_average.toFixed(1)) : "N/A"}/10</p>  
+          <p>({movie.vote_count})</p>
+          <p>&#x2022;</p>
+          <p> { movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}</p>
+
+          </div>
+          <hr></hr>
+
+          <p>{movie.overview}</p>
+
+          <p style ={{ color: '#D84E27' , fontWeight:'bold'}}>
+            <span style ={{ color: 'white', marginRight:'10px' }} >Duration</span>
+            {movie.runtime 
+            ? `${Math.floor(movie.runtime / 60)}hr ${movie.runtime % 60}mins` 
+            : 'N/A'}
+          </p>
+          <button onClick={handleWatchList}>
+            <FaBookmark style={{ marginRight: '8px' }}/>Add To WatchList
+          </button>
+
+        </div>
       </div>
     </div>
-      <div className='movie-details-body'>
-        <div className='movie-details-poster'>
-        <img
-        src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-        alt={movie.title}
-        />
-        <button onClick={handleWatchList}>
-            <FaBookmark style={{ marginRight: '8px' }}/>Add To WatchList
-            </button>
-        </div>
+
+    <div className='movie-details-body'>
+    <h3>Cast</h3>
+      <div className='movie-details-cast'>
+      {movie.credits.cast.slice(0, 10).map((actor, index) => (
+      <div key={index} className="cast-card">
+      <img
+        src={
+          actor.profile_path
+            ? `https://image.tmdb.org/t/p/w185${actor.profile_path}`
+            : '/fallback.png'
+        }
+        alt={actor.name}
+      />
+      <div className="cast-info">
+        <p className="actor-name">{actor.name}</p>
         
-        <div className='movie-details-overview'>
-          <h3>Overview</h3>
-          <p>{movie.overview}</p>
-          
+      </div>
+    </div>
+    
+  ))}
+  </div>
+
+
+
+
+      <div>
+        
+          <div>
           <form onSubmit={handleReviewSubmit}>
       <textarea 
         placeholder="Write your review here..." 
@@ -121,24 +184,10 @@ const MovieDetails = () => {
     </form>
     <ReviewsList movieId={movie.id}/>
         </div>
-        <div className='movie-details-cast'>
-  <h3>Cast</h3>
-  {movie.credits.cast.slice(0, 13).map((actor, index) => (
-    <div key={index} className="cast-card">
-      <img
-        src={
-          actor.profile_path
-            ? `https://image.tmdb.org/t/p/w185${actor.profile_path}`
-            : '/fallback.png'
-        }
-        alt={actor.name}
-      />
-      <p>{actor.name}</p>
-      <p>{actor.character}</p>
-    </div>
-  ))}
-        </div>
-          
+
+
+  
+        </div>      
       </div>
     </div>
     

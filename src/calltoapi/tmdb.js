@@ -1,4 +1,8 @@
 import axios from 'axios';
+import {db, auth} from '../firebase/config';
+import { doc, setDoc, getDoc} from 'firebase/firestore';
+
+
 
 const API_Key =process.env.REACT_APP_TMDB_API_KEY;
 const BaseUrl = 'https://api.themoviedb.org/3';
@@ -37,3 +41,35 @@ export const filterMovies = async (query, page= 1) => {
   });
   return response.data.results
 }
+
+export const fetchGenres = async ()=>{
+  try{
+  const response = await axios.get(`${BaseUrl}/genre/movie/list`,
+    {
+      params:{
+        api_key: API_Key
+      } 
+    });
+   
+  const genreMap = {}
+  response.data.genres.forEach(genre => {
+    genreMap[genre.id]=genre.name
+  });
+  console.log('genre map has been created', genreMap) 
+  
+  const genreRef = doc(db, 'metadata', 'genres');
+  await setDoc(genreRef,{
+    genreMap,
+    
+  });
+  //console.log('saved to db')
+  return genreMap;
+ 
+}
+catch(error){
+  console.log(error)
+}
+
+};
+//fetchGenres();
+

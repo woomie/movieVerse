@@ -7,7 +7,9 @@ import Pagination from '../components/Pagination';
 import { filterMovies } from '../calltoapi/tmdb';
 import NavBar from '../components/NavBar';
 import '../styles/main.css';
-import './style.css'
+import Recommendation from '../components/Recommendation';
+import { auth} from '../firebase/config';
+import {onAuthStateChanged} from 'firebase/auth';
 
 
 
@@ -16,9 +18,19 @@ const HomePage = () => {
     const [searchQuery, setSearchQuery] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const [isSearching, setIsSearching] = useState(false);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     
 
     useEffect(()=>{
+      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+        setLoading(false); // once auth check is done
+      });
+  
+      
+    
+      
       const getMovies= async()=>{
         try{
           if(searchQuery.trim() !== ''){
@@ -30,7 +42,7 @@ const HomePage = () => {
           }else {
             setIsSearching(false);
             const data = await fetchMovies(currentPage);
-            console.log(data)
+            //console.log(data)
             setMovies(data);
           }
           
@@ -41,26 +53,37 @@ const HomePage = () => {
 
       }
       getMovies();
+      return () => unsubscribe();
     }, [currentPage, searchQuery])
 
-    
+    if (loading) {
+      return <div>Loading...</div>; // or a spinner
+    }
 
   return (
     <div className='home'>
       <NavBar/>
-      <div className='content'>
-        <div className='heading'>
-        {isSearching ? (
-        <h3>Search Results</h3>
-        ) : (
-        <h3>Popular Movies</h3>
-      )}
-        <SearchBar setSearchQuery={setSearchQuery}/>
       
+      <div className='content'>
+        <div className='heading'>   
+        
+       <SearchBar setSearchQuery={setSearchQuery}/> 
+        
+      </div >
+      
+      {user && <Recommendation/> }
+      <div>
+      {isSearching ? (
+        <h3 className='subheading'>Search Results</h3>
+        ) : (
+        <h3 className='subheading'>Popular Movies</h3>
+      )}
       </div>
       <div className='movie-card'>
+      
         {movies.map(movie =>(
         <Link to = {`/movie/${movie.id}`}>
+         
         <MovieCard
           key={movie.id}
           image={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}

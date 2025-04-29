@@ -1,16 +1,26 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../firebase/config'
 import { Link, useNavigate } from 'react-router-dom';
 import poster from '../assets/tyson-moultrie-BQTHOGNHo08-unsplash.jpg'
+import '../styles/signin.css'
 
 
 
 const Signin = () => {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     //const [error , setError] = useState();
     const navigate = useNavigate();
+    //special class for sigin in body
+
+    useEffect(() => {
+      document.body.classList.add('auth-body');
+  
+      return () => {
+        document.body.classList.remove('auth-body');
+      };
+    }, []);
 
     const handleSignIn = async(e) =>{
         e.preventDefault();
@@ -29,26 +39,28 @@ const Signin = () => {
         
     }
   return (
-    <div className='signin'>
+    <div className='signin-to-db'>
       <div className='right'>
-      <Link to ={'/'}>
-        <span className='link-to-home'>Home</span>
+      <div className="home-link">
+      <Link to="/">
+      <span className="link-to-home" style={{ color: 'black' }}>Home</span>
       </Link>
+    </div>
         <form onSubmit={handleSignIn}>
           <h1>Sign In </h1>
             <input
-                type='text'
+                type='email'
                 id='email'
-                placeholder='email'
+                placeholder='Email'
                 onChange={(e)=> setEmail(e.target.value)}
             />
             <input
                 type='password'
                 id='password'
-                placeholder='password'
+                placeholder='Password'
                 onChange={(e)=> setPassword(e.target.value)}
             />
-                <button>Submit</button>
+                <button type='submit'>Submit</button>
                 <Link to ={'/signup'}>
                 <span className='link-to-signup'>Sign Up</span>
                 </Link>
@@ -59,6 +71,7 @@ const Signin = () => {
       <div className='left'>
         <img
           src={poster}
+          alt='poster'
         />
       </div>
       

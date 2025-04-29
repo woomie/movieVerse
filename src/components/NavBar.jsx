@@ -3,7 +3,7 @@ import logo from '../assets/MovieVersewhite.png';
 import { Link } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../firebase/config';
-import { FaSignInAlt, FaSignOutAlt, FaHome, FaBookmark } from 'react-icons/fa' ;
+import { FaSignInAlt, FaSignOutAlt, FaHome, FaBookmark, FaGithub } from 'react-icons/fa' ;
 
 
 
@@ -41,6 +41,12 @@ return (
     <Link to='/watchlist'>
       <span className="nav-link">
         <FaBookmark style={{ marginRight: '8px' }}/> WatchList
+      </span>
+    </Link>
+
+    <Link to='https://github.com/woomie/movieVerse'>
+      <span className="nav-link">
+        <FaGithub style={{ marginRight: '8px' }}/> Github
       </span>
     </Link>
 
