@@ -27,6 +27,16 @@ MovieVerse is a web application that allows users to browse popular movies, view
 - Run the app: npm start
 - Run tests: npx playwright test
 
+## Future Plans
+- Implement Server-Side Rendering (SSR) with Next.js:
+To improve performance, SEO, and load times, I plan to migrate MovieVerse to Next.js and use getServerSideProps to fetch movie data dynamically on the server. This will ensure users get fast, SEO-optimized content and a smoother experience.
+
+- Movie Trailer Previews
+Integrate YouTube or TMDB trailer previews directly into movie details 
+
+- Improve User recommendation using AI
+Use machine learning or collaborative filtering to generate smarter movie recommendations based on user behavior and preferences.
+
 
 
 
