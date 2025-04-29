@@ -27,6 +27,28 @@ MovieVerse is a web application that allows users to browse popular movies, view
 - Run the app: npm start
 - Run tests: npx playwright test
 
+## Technical Highlights
+- Reusable Components
+    Developed modular components like Navbar, MovieCard, MovieList, MovieDetails, and Recommendation to ensure code reusability and maintainability.
+    Followed best practices for component organization using props, conditional rendering, and separation of concerns.
+
+- Playwright Testing
+    Navigating to movie detail pages
+    Search functionality
+    Sign-in and protected routes
+    Ensured UI components render correctly and dynamic routes work as expected.
+
+- Authentication & Protected Routes
+    Integrated user authentication using Firebase.
+    Built protected features like Watchlist and User Profile that conditionally render based on login state.
+
+- Dynamic Routing & API Integration
+    Implemented dynamic routing (/movie/:id) to display detailed movie pages using data fetched from an external movie API.
+    Utilized useEffect and useParams to fetch and display content dynamically.
+
+- State Management & Props Handling
+    Managed state using useState and useEffect hooks, passing props down to children as needed. Used conditional rendering to show or hide elements based on state and user interaction.
+
 ## Future Plans
 - Implement Server-Side Rendering (SSR) with Next.js:
 To improve performance, SEO, and load times, I plan to migrate MovieVerse to Next.js and use getServerSideProps to fetch movie data dynamically on the server. This will ensure users get fast, SEO-optimized content and a smoother experience.
