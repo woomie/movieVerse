@@ -1,5 +1,6 @@
 import { FaStar } from 'react-icons/fa'
 
+
 const MovieCard = ({image, title, date, rating}) => {
   const releaseYear = new Date(date).getFullYear();
   //console.log(releaseYear);
@@ -12,6 +13,8 @@ const MovieCard = ({image, title, date, rating}) => {
       <img
       src={image}
       alt={title}
+      
+       
       />
       <h6>{title}</h6>
       <div className='movie-card-year'>

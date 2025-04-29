@@ -5,11 +5,9 @@ import { doc, updateDoc, arrayUnion ,collection, addDoc, serverTimestamp } from 
 import { db, auth } from '../firebase/config';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import ReviewsList from '../components/ReviewsList';
-import {FaBookmark, FaStar, FaHome } from 'react-icons/fa';
+import {FaBookmark, FaStar, FaHome, FaSignInAlt } from 'react-icons/fa';
 import { Link} from 'react-router-dom';
-import logo from '../assets/MovieVersewhite.png';
-import '../styles/main.css';
-import NavBar from '../components/NavBar';
+
 
 
 const MovieDetails = () => {
@@ -19,10 +17,12 @@ const MovieDetails = () => {
   const [user] = useAuthState(auth);
   const [review, setReview] = useState('');
 
+
   useEffect(()=>{
     const getMovieDetails = async() =>{
       try{
         setLoading(true);
+        //pass the id from params 
         const data = await fetchMoviesDetails(id);
         //console.log(data);
         setMovie(data);
@@ -40,13 +40,15 @@ const MovieDetails = () => {
   if (loading) return <div>Loading...</div>;
   if (!movie) return <div>Movie not found</div>;  
   
+
   const handleWatchList = async()=>{
     if(!user){
+      //check if user is logged in
       alert('Sign in to add movies to your watchlist');
       return;
     }
     const userRef = doc(db, 'users', user.uid);
-
+    //stores the data in users collection
     await updateDoc(userRef, {
       watchlist: arrayUnion({
         id: movie.id,
@@ -70,6 +72,7 @@ const MovieDetails = () => {
       return;
     }
 
+    //save user review to reviews collection
     try {
       await addDoc(collection(db, 'reviews'), {
         movieId: movie.id,
@@ -90,16 +93,11 @@ const MovieDetails = () => {
 
   return (
     <div className='movie-details-page'>
-      
-    
-      <div className='movie-detail-hero' style={
-        
+      <div className='movie-detail-hero' style={ 
         {backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
       }
     }>
-      
       <div className="movie-details-navbar">
-    
       <Link to='/'>
             <span className="nav-link">
               <FaHome style={{ marginRight: '8px' }}/> Home
@@ -110,8 +108,12 @@ const MovieDetails = () => {
         <FaBookmark style={{ marginRight: '8px' }}/> WatchList
       </span>
     </Link>
+    <Link to='/signin'>
+      <span className="nav-link">
+        <FaSignInAlt style={{ marginRight: '8px' }}/> SignIn
+      </span>
+    </Link>
       </div>
-
       <div className='glass-card'>
         <div className='glass-card-content'>
           <h2>{movie.title}</h2>

@@ -3,14 +3,14 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
-import axios from 'axios'; // for API calls
+import axios from 'axios'; 
 import MovieCard from './MovieCard';
 import { Link } from 'react-router-dom';
 import '../styles/main.css';
 
 const Recommendation = () => {
-  const [list, setList] = useState([]);  // 👉 ADD THIS to store user's watchlist
-  const [recommendations, setRecommendations] = useState([]); // to store recommended movies
+  const [list, setList] = useState([]);  
+  const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -40,7 +40,7 @@ const Recommendation = () => {
     if (list.length > 0) {
       recommendMovies(list);
     }
-  }, [list]);
+  }, );
   const getTopGenres = (watchlist) => {
     const genreCount = {};
 
@@ -99,7 +99,7 @@ const Recommendation = () => {
   
     setRecommendations(recommended);
   };
-  // Dummy genre mapping (you need real TMDB genre IDs here)
+ 
   const getGenreId = (genreName) => {
     const genreMap = {
         "Action": 28,

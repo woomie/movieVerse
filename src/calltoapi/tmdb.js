@@ -1,12 +1,13 @@
 import axios from 'axios';
-import {db, auth} from '../firebase/config';
-import { doc, setDoc, getDoc} from 'firebase/firestore';
+import {db} from '../firebase/config';
+import { doc, setDoc} from 'firebase/firestore';
 
 
 
 const API_Key =process.env.REACT_APP_TMDB_API_KEY;
 const BaseUrl = 'https://api.themoviedb.org/3';
 
+//function to fetch popular movies
 export const fetchMovies =async (currentPage) => {
 
     const response = await axios.get(`${BaseUrl}/movie/popular`, {
@@ -19,6 +20,7 @@ export const fetchMovies =async (currentPage) => {
   return response.data.results
 }
 
+//function to fetch movie details using its Id
 export const fetchMoviesDetails = async (movieId) =>{
   const response = await axios.get(`${BaseUrl}/movie/${movieId}`,{
     params:{
@@ -30,6 +32,7 @@ export const fetchMoviesDetails = async (movieId) =>{
   return response.data
 }
 
+//function that takes the query from search box and checks database for matching movie titles
 export const filterMovies = async (query, page= 1) => {
   const response = await axios.get(`${BaseUrl}/search/movie`,{
     params:{

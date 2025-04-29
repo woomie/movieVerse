@@ -1,6 +1,8 @@
 # 📽️Movie Verse
 ![Homepage](./src/assets/Screenshot%202025-04-29%20005412.png)
+
 MovieVerse is a web application that allows users to browse popular movies, view information about each movie, create their own watchlist, write reviews and get recommendations on movies to watch based on their interest. Built with mordern web technologies, it offers a clean, responsive and interactive UI.
+
 ![Movie Details Page](./src/assets/image1.png)
 ## Features
 - Browse popular movies

@@ -19,7 +19,7 @@ const WatchList = () => {
             }
         });
 
-        // Cleanup subscription on unmount
+        
         return () => unsubscribe();
     }, []);
 

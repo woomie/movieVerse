@@ -7,9 +7,9 @@
   background-color: #14191e;
 }
 
-/* leave the default body alone */
+
 body {
-  margin: 0; /* Only the global reset */
+  margin: 0; 
 }
 .signin-to-db {
     display: flex;
@@ -20,11 +20,11 @@ body {
     border-radius: 20px;
     background-color: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    overflow: hidden; /* Ensures image respects container border radius */
+    overflow: hidden;
   }
   
   .left {
-    display: none; /* Hidden by default on small screens */
+    display: none;
   }
   
   .left img {
@@ -104,9 +104,9 @@ body {
   }
 
   .home-link {
-    align-self: flex-start; /* Push to the left */
-    margin-left: 20px; /* Add a little space from the edge */
-    margin-top: 20px; /* Optional: a little space from the top */
+    align-self: flex-start; 
+    margin-left: 20px; 
+    margin-top: 20px; 
     
   }
   .home-link span{
@@ -114,11 +114,11 @@ body {
     
   }
   
-  /* Media query for larger screens */
+ 
   @media (min-width: 768px) {
     .signin-to-db {
       flex-direction: row;
-      height: 80vh; /* Control the height on larger screens */
+      height: 80vh; 
     }
     
     .right {
@@ -128,6 +128,6 @@ body {
     .left {
       display: block;
       width: 50%;
-      height: auto; /* Let it adjust to container height */
+      height: auto; 
     }
   }

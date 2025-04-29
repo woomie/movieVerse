@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 import Pagination from '../components/Pagination';
 import { filterMovies } from '../calltoapi/tmdb';
 import NavBar from '../components/NavBar';
-import '../styles/main.css';
 import Recommendation from '../components/Recommendation';
 import { auth} from '../firebase/config';
 import {onAuthStateChanged} from 'firebase/auth';
+import '../styles/main.css';
 
 
 
@@ -25,22 +25,22 @@ const HomePage = () => {
     useEffect(()=>{
       const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         setUser(currentUser);
-        setLoading(false); // once auth check is done
+        setLoading(false); 
       });
-  
       
-    
-      
+      //gets search query or popular movies
       const getMovies= async()=>{
         try{
+          //making sure its a valid search query
           if(searchQuery.trim() !== ''){
             setIsSearching(true);
-            const data = await filterMovies(searchQuery);
             
+            const data = await filterMovies(searchQuery);
             setMovies(data);
             
           }else {
             setIsSearching(false);
+            //if no value in search display the popular movies
             const data = await fetchMovies(currentPage);
             //console.log(data)
             setMovies(data);
@@ -57,21 +57,17 @@ const HomePage = () => {
     }, [currentPage, searchQuery])
 
     if (loading) {
-      return <div>Loading...</div>; // or a spinner
+      return <div>Loading...</div>; 
     }
 
   return (
     <div className='home'>
-      <NavBar/>
-      
+      <NavBar/> 
       <div className='content'>
-        <div className='heading'>   
-        
-       <SearchBar setSearchQuery={setSearchQuery}/> 
-        
+      <div className='heading'>   
+        <SearchBar setSearchQuery={setSearchQuery}/>   
       </div >
-      
-      {user && <Recommendation/> }
+      {user && !searchQuery && <Recommendation />}
       <div>
       {isSearching ? (
         <h3 className='subheading'>Search Results</h3>
@@ -80,10 +76,8 @@ const HomePage = () => {
       )}
       </div>
       <div className='movie-card'>
-      
         {movies.map(movie =>(
         <Link to = {`/movie/${movie.id}`}>
-         
         <MovieCard
           key={movie.id}
           image={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
@@ -91,9 +85,7 @@ const HomePage = () => {
           date={movie.release_date}
           rating={movie.vote_average}
           />
-        </Link> 
-         
-          
+        </Link>   
         ))}
       </div> 
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage}/>

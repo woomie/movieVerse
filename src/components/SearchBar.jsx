@@ -1,5 +1,3 @@
-
-
 const SearchBar = ({setSearchQuery}) => {
   const handleChange = (e)=>{
     setSearchQuery(e.target.value)
